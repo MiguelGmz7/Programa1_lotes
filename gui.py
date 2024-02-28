@@ -24,6 +24,7 @@ class MyGUI: # Generamos todo el canvas como una clase
         self.window.geometry("762x665")
         self.window.configure(bg = "#FFFFFF")
         
+        self.timer = Timer()
 
 
         self.canvas = Canvas(
@@ -235,7 +236,14 @@ class MyGUI: # Generamos todo el canvas como una clase
 
     def start_timer(self):
         
-        self.timer = Timer()
-        self.timer.start(self.window, self.canvas, self.clock)
+        try:
+            if self.timer.running:
+                raise Exception
+            else:
+                self.timer.start(self.window, self.canvas, self.clock)
+        except Exception:
+            messagebox.showerror("Error","Ya se esta ejecutando el programa")        
+
+        
         
 MyGUI()

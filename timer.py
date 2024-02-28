@@ -6,8 +6,7 @@ class Timer:
         self.time_string = tk.StringVar()
         self.running = False
         self.seconds = 0
-        
-        
+           
 
     def update_time(self,window,canvas,clock):
         if self.running:
