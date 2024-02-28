@@ -238,21 +238,4 @@ class MyGUI: # Generamos todo el canvas como una clase
         self.timer = Timer()
         self.timer.start(self.window, self.canvas, self.clock)
         
-    # Funciones
-    # def update_time(self):
-    #     if self.running:
-    #         self.seconds += 1
-    #         minutes = self.seconds // 60
-    #         seconds = self.seconds % 60
-    #         self.time_string.set(f"{minutes}:{seconds:02}")
-    #         self.window.after(1000, self.update_time)
-    #         self.canvas.itemconfig(self.clock, text = self.time_string.get())
-    
-    # def stop_timer(self):
-    #     self.running = False
-    #     self.update_time()
-    #     messagebox.showinfo("Cronometro","El cronometro se detuvo en: "+self.time_string.get())
-    #     self.seconds = 0
-    #     self.canvas.itemconfig(self.clock, text = "0:00")
-
 MyGUI()
