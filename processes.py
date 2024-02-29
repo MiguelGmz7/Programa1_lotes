@@ -1,11 +1,14 @@
 import random
+import tkinter as tk
 class Processes:
     def __init__(self):
-        pass
+        self.time_string = tk.StringVar()
+        
 
     def setProcesos(self, processes):
         # Split the processes into batches of 5
         self.batches = [processes[i:i + 5] for i in range(0, len(processes), 5)]
+        self.head = self.batches[0][0]
     
     def genProcesos(self, num_processes):
         users = ['Jose', 'Carlos', 'Carolina', 'Juan']
@@ -51,3 +54,10 @@ class Processes:
             # file.write("test 1\n")
             # file.write("test 2\n")
             # file.write("test 3\n")
+    
+                
+    def execute_process(self,label,window):
+        self.head['tme'] -= 1
+        self.time_string.set(self.head['tme'])
+        label.config(text=self.time_string.get())
+        window.after(1000, self.execute_process,label,window)

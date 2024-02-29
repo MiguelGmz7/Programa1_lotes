@@ -8,6 +8,7 @@ from tkinter import messagebox
 import tkinter as tk
 from timer import Timer
 from processes import Processes
+import time
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 
@@ -182,7 +183,7 @@ class MyGUI: # Generamos todo el canvas como una clase
             284.0,
             357.0,
             anchor="nw",
-            text="ejecucion_test",
+            text="",
             fill="#000000",
             font=("JetBrainsMonoRoman Regular", 15 * -1)
         )
@@ -281,6 +282,7 @@ class MyGUI: # Generamos todo el canvas como una clase
             self.timer.start(self.window, self.canvas, self.clock)
             self.processes.genProcesos(self.entry_1.get())
             self.print_espera()
+            self.print_ejecucion()
     
     def print_espera(self):
 
@@ -301,5 +303,18 @@ class MyGUI: # Generamos todo el canvas como una clase
         string += "\n"
         string += str(procesos_faltantes) + " Procesos pendientes"
         self.label_espera.config(text=string)
+    
+    def print_ejecucion(self):
+        # string = ""
+        # element = self.processes.batches[0][0]
+        # string += str(element['id'])+". "+element['user']+"\n"
+        # string += str(element['n1'])+" "+ element['sim']+ " "+ str(element['n2']) +"\n"
+        
+        # for i in range(element['tme'], -1, -1):
+        #     string += "TME: "+str(element['tme'])+"\n"+"\n"
+        #     self.label_ejecucion.config(text=string)
+        #     time.sleep
+        self.processes.execute_process(self.label_ejecucion,self.window)
 
+    
 MyGUI()
