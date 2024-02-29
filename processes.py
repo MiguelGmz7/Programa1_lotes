@@ -64,4 +64,10 @@ class Processes:
             self.string = ""
             self.time_string.set("")
             window.after(1000, self.execute_process,label,window)
+        else:
+            self.string = ""
+            self.time_string.set("")
+            label.config(text="")
+            del self.head 
+            print(self.batches)
 

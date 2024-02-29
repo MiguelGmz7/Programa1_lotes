@@ -1,12 +1,12 @@
 Lote N: 1
 ------------------
 1. Carlos
-3 - 4
-TME: 9
-
-2. Carolina
-7 / 7
+1 * 5
 TME: 8
+
+2. Carlos
+4 - 8
+TME: 9
 
 
 
