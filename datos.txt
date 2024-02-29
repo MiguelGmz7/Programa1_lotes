@@ -1,16 +1,16 @@
 Lote N: 1
 ------------------
-1. Carlos
-5 / 1
-TME: 4
+1. Juan
+9 * 2
+TME: 9
 
-2. Juan
-3 * 5
-TME: 8
+2. Carlos
+1 / 7
+TME: 13
 
 3. Juan
-2 * 8
-TME: 9
+2 * 7
+TME: 6
 
 
 

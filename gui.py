@@ -149,6 +149,8 @@ class MyGUI: # Generamos todo el canvas como una clase
             bg="#EEE8B7",
             font=("JetBrainsMonoRoman Regular",11))
         
+        self.label_espera.pack()
+        
 
         image_image_4 = PhotoImage(
             file=relative_to_assets("image_4.png"))
@@ -193,12 +195,14 @@ class MyGUI: # Generamos todo el canvas como una clase
             bd=0
         )
 
-        self.canvas_espera.place(x=284.0,y=357.0)
+        self.canvas_ejecucion.place(x=284.0,y=357.0)
 
         self.label_ejecucion = Label(self.canvas_ejecucion,
             bd=1,
             bg="#EEE8B7",
             font=("JetBrainsMonoRoman Regular",11))
+        
+        self.label_ejecucion.pack()
 
         self.canvas.create_text(
             182.0,
