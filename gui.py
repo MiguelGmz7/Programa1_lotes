@@ -237,15 +237,17 @@ class MyGUI: # Generamos todo el canvas como una clase
 
     def start_timer(self):
         
-        try:
-            if self.timer.running:
-                raise Exception
-            else:
-                self.timer.start(self.window, self.canvas, self.clock)
-                self.processes.genProcesos(8)
-        except Exception:
-            messagebox.showerror("Error","Ya se esta ejecutando el programa")        
-
+        if self.timer.running:
+            messagebox.showerror("Error","Ya se esta ejecutando el programa")
         
+        elif not self.entry_1.get().isdigit():
+            messagebox.showerror("Error","Tienes que ingresar un numero")
+            
+        else:
+            self.timer.start(self.window, self.canvas, self.clock)
+            self.processes.genProcesos(self.entry_1.get())
+            
+
+    
         
 MyGUI()

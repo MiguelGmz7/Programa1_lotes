@@ -1,0 +1,149 @@
+Lote N: 1
+------------------
+Proceso N: 1
+Usuario: Carlos
+N1: 5
+Simbolo: +
+N2: 8
+Tiempo: 7
+
+Proceso N: 2
+Usuario: Jose
+N1: 2
+Simbolo: *
+N2: 9
+Tiempo: 12
+
+Proceso N: 3
+Usuario: Juan
+N1: 5
+Simbolo: -
+N2: 3
+Tiempo: 9
+
+Proceso N: 4
+Usuario: Jose
+N1: 1
+Simbolo: -
+N2: 7
+Tiempo: 10
+
+Proceso N: 5
+Usuario: Carolina
+N1: 6
+Simbolo: /
+N2: 4
+Tiempo: 7
+
+
+
+Lote N: 2
+------------------
+Proceso N: 6
+Usuario: Juan
+N1: 7
+Simbolo: +
+N2: 8
+Tiempo: 5
+
+Proceso N: 7
+Usuario: Carolina
+N1: 3
+Simbolo: *
+N2: 7
+Tiempo: 7
+
+Proceso N: 8
+Usuario: Juan
+N1: 5
+Simbolo: *
+N2: 7
+Tiempo: 13
+
+Proceso N: 9
+Usuario: Carolina
+N1: 9
+Simbolo: /
+N2: 3
+Tiempo: 12
+
+Proceso N: 10
+Usuario: Jose
+N1: 2
+Simbolo: *
+N2: 8
+Tiempo: 7
+
+
+
+Lote N: 3
+------------------
+Proceso N: 11
+Usuario: Carolina
+N1: 1
+Simbolo: *
+N2: 2
+Tiempo: 10
+
+Proceso N: 12
+Usuario: Jose
+N1: 9
+Simbolo: +
+N2: 1
+Tiempo: 11
+
+Proceso N: 13
+Usuario: Carlos
+N1: 5
+Simbolo: /
+N2: 9
+Tiempo: 5
+
+Proceso N: 14
+Usuario: Jose
+N1: 8
+Simbolo: *
+N2: 2
+Tiempo: 4
+
+Proceso N: 15
+Usuario: Carolina
+N1: 2
+Simbolo: /
+N2: 4
+Tiempo: 12
+
+
+
+Lote N: 4
+------------------
+Proceso N: 16
+Usuario: Carlos
+N1: 6
+Simbolo: -
+N2: 2
+Tiempo: 9
+
+Proceso N: 17
+Usuario: Carlos
+N1: 3
+Simbolo: /
+N2: 8
+Tiempo: 10
+
+Proceso N: 18
+Usuario: Carlos
+N1: 6
+Simbolo: +
+N2: 6
+Tiempo: 6
+
+Proceso N: 19
+Usuario: Jose
+N1: 8
+Simbolo: /
+N2: 6
+Tiempo: 6
+
+
+
