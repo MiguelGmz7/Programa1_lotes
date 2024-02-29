@@ -11,14 +11,16 @@ class Processes:
         users = ['Jose', 'Carlos', 'Carolina', 'Juan']
         sims = ('+','-','*','/')
         total_processes = []
+        count = 0
         for i in range(int(num_processes)):
+            count += 1
             user = random.choice(users)
             n1 = random.randint(1, 9)
             sim = random.choice(sims)
             n2 = random.randint(1, 9)
             tme = random.randint(4, 13)
 
-            element = {"user": user, "n1": n1, "sim": sim, "n2":n2, 'tme':tme}
+            element = {"id":count, "user": user, "n1": n1, "sim": sim, "n2":n2, 'tme':tme}
             total_processes.append(element)
         
         self.setProcesos(total_processes)
@@ -36,13 +38,10 @@ class Processes:
                 file.write("\n")
                 for j in i:
                     count2 += 1
-                    file.write("Proceso N: " + str(count2) + "\n")
-                    file.write("Usuario: " + j['user'] + "\n")
-                    file.write("N1: " + str(j['n1']) + "\n")
-                    file.write("Simbolo: " + j['sim'] + "\n")
-                    file.write("N2: " + str(j['n2']) + "\n")
-                    file.write("Tiempo: " + str(j['tme']) + "\n")
-                    file.write("\n")
+                    file.write(str(count2)+". "+j['user']+"\n")
+                    file.write(str(j['n1'])+" "+ j['sim']+ " "+ str(j['n2']) +"\n")
+                    file.write("TME: "+str(j['tme'])+"\n"+"\n")
+
                 
                 file.write("\n")
                 file.write("\n")

@@ -130,10 +130,25 @@ class MyGUI: # Generamos todo el canvas como una clase
             24.0,
             284.0,
             anchor="nw",
-            text="espera_test",
+            text="",
             fill="#000000",
             font=("JetBrainsMonoRoman Regular", 15 * -1)
         )
+
+        self.canvas_espera = Canvas(
+            self.canvas,
+            bg = "#EEE8B7",
+            height=300,
+            width=195,
+            bd=0
+        )
+        self.canvas_espera.place(x=24.0,y=284.0)
+
+        self.label_espera = Label(self.canvas_espera,
+            bd=1,
+            bg="#EEE8B7",
+            font=("JetBrainsMonoRoman Regular",11))
+        
 
         image_image_4 = PhotoImage(
             file=relative_to_assets("image_4.png"))
@@ -169,6 +184,21 @@ class MyGUI: # Generamos todo el canvas como una clase
             fill="#000000",
             font=("JetBrainsMonoRoman Regular", 15 * -1)
         )
+
+        self.canvas_ejecucion = Canvas(
+            self.canvas,
+            bg = "#EEE8B7",
+            height=166,
+            width=195,
+            bd=0
+        )
+
+        self.canvas_espera.place(x=284.0,y=357.0)
+
+        self.label_ejecucion = Label(self.canvas_ejecucion,
+            bd=1,
+            bg="#EEE8B7",
+            font=("JetBrainsMonoRoman Regular",11))
 
         self.canvas.create_text(
             182.0,
@@ -246,8 +276,26 @@ class MyGUI: # Generamos todo el canvas como una clase
         else:
             self.timer.start(self.window, self.canvas, self.clock)
             self.processes.genProcesos(self.entry_1.get())
-            
-
+            self.print_espera()
     
-        
+    def print_espera(self):
+
+        string = ""
+        max = 0
+        while True:
+            for i in self.processes.batches:
+                for j in i:
+                    max += 1
+                    string += str(j['id'])+". "+j['user']+"\n"
+                    string += str(j['n1'])+" "+ j['sim']+ " "+ str(j['n2']) +"\n"
+                    string += "TME: "+str(j['tme'])+"\n"+"\n"
+                    procesos_faltantes = len(i) - max
+                    if max == 3:
+                        break
+                break
+            break # no se por que funciona
+        string += "\n"
+        string += str(procesos_faltantes) + " Procesos pendientes"
+        self.label_espera.config(text=string)
+
 MyGUI()
