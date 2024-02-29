@@ -3,6 +3,7 @@ import tkinter as tk
 class Processes:
     def __init__(self):
         self.time_string = tk.StringVar()
+        self.string = ""
         
 
     def setProcesos(self, processes):
@@ -48,16 +49,19 @@ class Processes:
                 
                 file.write("\n")
                 file.write("\n")
-
-                
-
-            # file.write("test 1\n")
-            # file.write("test 2\n")
-            # file.write("test 3\n")
     
                 
     def execute_process(self,label,window):
-        self.head['tme'] -= 1
-        self.time_string.set(self.head['tme'])
-        label.config(text=self.time_string.get())
-        window.after(1000, self.execute_process,label,window)
+        if self.head['tme'] > 0:
+            self.head['tme'] -= 1
+
+            self.string += str(self.head['id'])+". "+self.head['user']+"\n"
+            self.string += str(self.head['n1'])+" "+ self.head['sim']+ " "+ str(self.head['n2']) +"\n"
+            self.string += "TME: "+str(self.head['tme'])
+
+            self.time_string.set(self.string)
+            label.config(text=self.time_string.get())
+            self.string = ""
+            self.time_string.set("")
+            window.after(1000, self.execute_process,label,window)
+
