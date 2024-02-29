@@ -7,6 +7,7 @@ from tkinter import *
 from tkinter import messagebox
 import tkinter as tk
 from timer import Timer
+from processes import Processes
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 
@@ -25,7 +26,7 @@ class MyGUI: # Generamos todo el canvas como una clase
         self.window.configure(bg = "#FFFFFF")
         
         self.timer = Timer()
-
+        self.processes = Processes()
 
         self.canvas = Canvas(
             self.window,
@@ -241,6 +242,7 @@ class MyGUI: # Generamos todo el canvas como una clase
                 raise Exception
             else:
                 self.timer.start(self.window, self.canvas, self.clock)
+                self.processes.genProcesos(8)
         except Exception:
             messagebox.showerror("Error","Ya se esta ejecutando el programa")        
 
