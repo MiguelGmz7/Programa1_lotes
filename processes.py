@@ -1,9 +1,11 @@
 import random
 import tkinter as tk
+import threading
 class Processes:
     def __init__(self):
         self.time_string = tk.StringVar()
         self.string = ""
+        self.done = False
         
 
     def setProcesos(self, processes):
@@ -64,10 +66,17 @@ class Processes:
             self.string = ""
             self.time_string.set("")
             window.after(1000, self.execute_process,label,window)
+            self.execute = True
         else:
             self.string = ""
             self.time_string.set("")
             label.config(text="")
-            del self.head 
-            print(self.batches)
+            self.finish_e = self.batches[0][0]
+            del self.batches[0][0] 
+            #print(self.finish_e)
+            # self.execute = False
+            # #self.semaforo.acquire()
+            self.done = True
+    
+ 
 

@@ -8,7 +8,7 @@ from tkinter import messagebox
 import tkinter as tk
 from timer import Timer
 from processes import Processes
-import time
+import threading
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 
@@ -281,11 +281,11 @@ class MyGUI: # Generamos todo el canvas como una clase
         else:
             self.timer.start(self.window, self.canvas, self.clock)
             self.processes.genProcesos(self.entry_1.get())
-            self.print_espera()
-            self.print_ejecucion()
-    
-    def print_espera(self):
 
+            self.done = False
+            threading.Thread(target=self.loop_print, daemon=True).start()
+            self.processes.execute_process(self.label_ejecucion,self.window)    
+    def print_espera(self):
         string = ""
         max = 0
         while True:
@@ -303,18 +303,12 @@ class MyGUI: # Generamos todo el canvas como una clase
         string += "\n"
         string += str(procesos_faltantes) + " Procesos pendientes"
         self.label_espera.config(text=string)
-    
-    def print_ejecucion(self):
-        # string = ""
-        # element = self.processes.batches[0][0]
-        # string += str(element['id'])+". "+element['user']+"\n"
-        # string += str(element['n1'])+" "+ element['sim']+ " "+ str(element['n2']) +"\n"
-        
-        # for i in range(element['tme'], -1, -1):
-        #     string += "TME: "+str(element['tme'])+"\n"+"\n"
-        #     self.label_ejecucion.config(text=string)
-        #     time.sleep
-        self.processes.execute_process(self.label_ejecucion,self.window)
 
+    def loop_print(self):
+        while not self.processes.done:
+            self.print_espera()
+        self.label_espera.config(text="")
+        self.processes.done = False
+        self.loop_print()
     
 MyGUI()
