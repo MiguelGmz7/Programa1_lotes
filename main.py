@@ -19,7 +19,7 @@ class MyGui:
         self.window.configure(bg = "#FFFFFF")
         
         self.timer = Timer()
-        #self.processes = Processes()
+        self.processes = Processes()
 
         self.canvas = Canvas(
             self.window,
@@ -266,7 +266,37 @@ class MyGui:
             
         else:
             self.timer.start(self.window, self.canvas, self.clock)
-        
+            self.processes.genProcesos(self.entry_1.get())
+
+            self.done = False
+            threading.Thread(target=self.loop_print, daemon=True).start()
+            self.processes.execute_process(self.label_ejecucion,self.window)
+
+    def print_espera(self):
+        string = ""
+        max = 0
+        while True:
+            for i in self.processes.batches:
+                for j in i:
+                    max += 1
+                    string += str(j['id'])+". "+j['user']+"\n"
+                    string += str(j['n1'])+" "+ j['sim']+ " "+ str(j['n2']) +"\n"
+                    string += "TME: "+str(j['tme'])+"\n"+"\n"
+                    procesos_faltantes = len(i) - max
+                    if max == 3:
+                        break
+                break
+            break # no se por que funciona
+        string += "\n"
+        string += str(procesos_faltantes) + " Procesos pendientes"
+        self.label_espera.config(text=string)
+
+    def loop_print(self):
+        while not self.processes.done:
+            self.print_espera()
+        self.label_espera.config(text="")
+        self.processes.done = False
+        self.loop_print()   
 
 class Timer:
     def __init__(self):
@@ -292,8 +322,6 @@ class Timer:
     def stop(self, canvas, clock):
         self.running = False
         self.seconds = 0
-
-
 
 class Processes:
     def __init__(self):
