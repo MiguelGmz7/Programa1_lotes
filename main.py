@@ -4,6 +4,7 @@ from tkinter import messagebox
 import tkinter as tk
 import threading
 import random
+import time
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"/run/media/miguel/Data/User/Courses/Sem_SO/fkinTkinter/programa_1/build/assets/frame0")
@@ -228,10 +229,27 @@ class MyGui:
             546.0,
             287.0,
             anchor="nw",
-            text="terminados_test",
+            text="",
             fill="#000000",
             font=("JetBrainsMonoRoman Regular", 15 * -1)
         )
+
+        self.canvas_terminado = Canvas(
+            self.canvas,
+            bg = "#EEE8B7",
+            height=297,
+            width=195,
+            bd=0
+        )
+
+        self.canvas_terminado.place(x=546.0,y=287.0)
+
+        self.label_terminado = Label(self.canvas_terminado,
+            bd=1,
+            bg="#EEE8B7",
+            font=("JetBrainsMonoRoman Regular",11))
+        
+        self.label_terminado.pack()
 
         image_image_7 = PhotoImage(
             file=relative_to_assets("image_7.png"))
@@ -242,7 +260,7 @@ class MyGui:
         )
 
         
-        
+        # Reloj Cronometro
         self.clock = self.canvas.create_text(
             593.0,
             115.0,
@@ -272,7 +290,7 @@ class MyGui:
             self.done = False
             threading.Thread(target=self.loop_print, daemon=True).start()
             #self.processes.execute_process(self.label_ejecucion,self.window)
-            threading.Thread(target=self.processes.execute_process, args=(self.label_ejecucion,self.window), daemon=True).start()
+            threading.Thread(target=self.processes.execute_process, args=(self.label_ejecucion, self.label_terminado), daemon=True).start()
 
     def print_espera(self):
         string = ""
@@ -290,7 +308,10 @@ class MyGui:
                 break
             break # no se por que funciona
         string += "\n"
-        string += str(procesos_faltantes) + " Procesos pendientes"
+        try:
+            string += str(procesos_faltantes) + " Procesos pendientes"
+        except:
+            pass
         self.label_espera.config(text=string)
 
     def loop_print(self):
@@ -341,13 +362,12 @@ class Processes:
     def __init__(self):
         self.time_string = tk.StringVar()
         self.string = ""
-        self.done = False
+        self.finish_e = []
         
 
     def setProcesos(self, processes):
         # Split the processes into batches of 5
         self.batches = [processes[i:i + 5] for i in range(0, len(processes), 5)]
-        self.head = self.batches[0][0]
     
     def genProcesos(self, num_processes):
         users = ['Jose', 'Carlos', 'Carolina', 'Juan']
@@ -389,32 +409,69 @@ class Processes:
                 file.write("\n")
     
                 
-    def execute_process(self,label,window):
-        done.wait()
-        if self.head['tme'] > 0:
-            self.head['tme'] -= 1
+    def execute_process(self,label,label_f):
+        try:
+            while True:
+                done.wait()
+                head = self.batches[0][0]
+                if head['tme'] > 0:
+                    head['tme'] -= 1
 
-            self.string += str(self.head['id'])+". "+self.head['user']+"\n"
-            self.string += str(self.head['n1'])+" "+ self.head['sim']+ " "+ str(self.head['n2']) +"\n"
-            self.string += "TME: "+str(self.head['tme'])
+                    self.string += str(head['id'])+". "+head['user']+"\n"
+                    self.string += str(head['n1'])+" "+ head['sim']+ " "+ str(head['n2']) +"\n"
+                    self.string += "TME: "+str(head['tme'])
 
-            self.time_string.set(self.string)
-            label.config(text=self.time_string.get())
-            self.string = ""
-            self.time_string.set("")
-            window.after(1000, self.execute_process,label,window)
-            self.execute = True
-        else:
-            self.string = ""
-            self.time_string.set("")
-            label.config(text="")
-            self.finish_e = self.batches[0][0]
-            del self.batches[0][0] 
-            #print(self.finish_e)
-            # self.execute = False
-            # #self.semaforo.acquire()
-            done.clear()
+                    self.time_string.set(self.string)
+                    label.config(text=self.time_string.get())
+                    self.string = ""
+                    self.time_string.set("")
+                    #window.after(1000, self.execute_process,label,window)
+                    time.sleep(1)
+                    self.execute = True
+                else:
+                    self.string = ""
+                    self.time_string.set("")
+                    label.config(text="")
+                    self.finish_e.append(head)
+                    del self.batches[0][0]
+                    self.finish_process(label_f)
+                    #print(self.finish_e)
+                    # self.execute = False
+                    # #self.semaforo.acquire()
+                    done.clear()
+        except:
+            pass
     
+    def finish_process(self, label):
+        string_f = ""
+        try:    
+            for i in self.finish_e:
+
+                if i['sim'] == '+':
+                    res = i['n1'] + i['n2']
+                    string_f += str(i['id'])+". "+i['user']+"\n"
+                    string_f += str(i['n1'])+" "+ i['sim']+ " "+ str(i['n2']) +" = "+ str(res) +"\n"
+                
+                if i['sim'] == '-':
+                    res = i['n1'] - i['n2']
+                    string_f += str(i['id'])+". "+i['user']+"\n"
+                    string_f += str(i['n1'])+" "+ i['sim']+ " "+ str(i['n2']) +" = "+ str(res) +"\n"
+
+                if i['sim'] == '*':
+                    res = i['n1'] * i['n2']
+                    string_f += str(i['id'])+". "+i['user']+"\n"
+                    string_f += str(i['n1'])+" "+ i['sim']+ " "+ str(i['n2']) +" = "+ str(res) +"\n"
+
+                if i['sim'] == '/':
+                    res = i['n1'] / i['n2']
+                    string_f += str(i['id'])+". "+i['user']+"\n"
+                    string_f += str(i['n1'])+" "+ i['sim']+ " "+ str(i['n2']) +" = "+ str(res) +"\n"
+
+            string_f += "\n"
+
+            label.config(text=string_f)
+        except:
+            pass            
  
 
 gui = MyGui()
