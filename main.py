@@ -251,7 +251,7 @@ class MyGui:
         self.label_terminado = Label(self.canvas_terminado,
             bd=1,
             bg="#EEE8B7",
-            font=("JetBrainsMonoRoman Regular",11))
+            font=("JetBrainsMonoRoman Regular",10))
         
         self.label_terminado.pack()
 
@@ -378,7 +378,10 @@ class Processes:
         # Split the processes into batches of 5
         self.batches = [processes[i:i + 5] for i in range(0, len(processes), 5)]
 
-        print(self.batches)
+        # print(str(self.batches) + "\n")
+        # print(str(self.batches[0][1]) + "\n")
+        # print(str(self.batches[1][0]) + "\n")
+
     
     def genProcesos(self, num_processes):
         users = ['Jose', 'Carlos', 'Carolina', 'Juan']
@@ -425,6 +428,7 @@ class Processes:
             while True:
                 done.wait()
                 head = self.batches[0][0]
+
                 if head['tme'] > 0:
                     head['tme'] -= 1
 
@@ -449,7 +453,13 @@ class Processes:
                     #print(self.finish_e)
                     # self.execute = False
                     # #self.semaforo.acquire()
+
+                    if not self.batches[0]:
+                        del self.batches[0]
+
                     done.clear()
+                    print(self.batches)
+                    print("\n")
         except:
             pass
     
