@@ -1,40 +1,36 @@
 Lote N: 1
 ------------------
-1. Carolina
-9 - 1
-TME: 7
+1. Jose
+7 - 5
+TME: 5
 
-2. Carolina
-3 / 1
-TME: 13
+2. Carlos
+6 - 3
+TME: 12
 
 3. Juan
-6 * 9
+9 * 1
 TME: 8
 
-4. Juan
-4 + 1
-TME: 8
-
-5. Carlos
-6 + 8
+4. Carlos
+8 * 1
 TME: 10
+
+5. Juan
+4 / 1
+TME: 6
 
 
 
 Lote N: 2
 ------------------
-6. Carolina
-7 - 7
-TME: 5
+6. Jose
+4 / 1
+TME: 4
 
 7. Carlos
-6 / 6
-TME: 13
-
-8. Carlos
-8 / 9
-TME: 12
+1 + 8
+TME: 4
 
 
 

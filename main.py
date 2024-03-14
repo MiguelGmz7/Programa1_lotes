@@ -299,7 +299,7 @@ class MyGui:
             self.done = False
             threading.Thread(target=self.loop_print, daemon=True).start()
             #self.processes.execute_process(self.label_ejecucion,self.window)
-            threading.Thread(target=self.processes.execute_process, args=(self.label_ejecucion, self.label_terminado), daemon=True).start()
+            threading.Thread(target=self.processes.execute_process, args=(self.label_ejecucion, self.label_terminado, self.canvas, self.text_lotes), daemon=True).start()
 
     def print_espera(self):
         string = ""
@@ -423,7 +423,7 @@ class Processes:
                 file.write("\n")
     
                 
-    def execute_process(self,label,label_f):
+    def execute_process(self,label,label_f,canvas_l,text_l):
         try:
             while True:
                 done.wait()
@@ -455,11 +455,10 @@ class Processes:
                     # #self.semaforo.acquire()
 
                     if not self.batches[0]:
+                        self.print_lotes(canvas_l, text_l)
                         del self.batches[0]
 
                     done.clear()
-                    print(self.batches)
-                    print("\n")
         except:
             pass
     
@@ -492,7 +491,13 @@ class Processes:
 
             label.config(text=string_f)
         except:
-            pass            
+            pass
+
+    def print_lotes(self, canvas, text):
+        lotes = len(self.batches)
+        lotes -= 1
+
+        canvas.itemconfig(text, text=" " + str(lotes))  
  
 
 gui = MyGui()
