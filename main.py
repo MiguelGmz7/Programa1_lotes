@@ -199,7 +199,9 @@ class MyGui:
         
         self.label_ejecucion.pack()
 
-        self.canvas.create_text(
+        #lotes
+        
+        self.text_lotes = self.canvas.create_text(
             182.0,
             596.0,
             anchor="nw",
@@ -207,6 +209,8 @@ class MyGui:
             fill="#000000",
             font=("JetBrainsMonoRoman Regular", 24 * -1)
         )
+
+        
 
         image_image_6 = PhotoImage(
             file=relative_to_assets("image_6.png"))
@@ -275,6 +279,7 @@ class MyGui:
         self.imprimir = self.window.mainloop()
 
         # funciones de GUI
+    
 
     def start_timer(self):
         if self.timer.running:
@@ -284,9 +289,13 @@ class MyGui:
             messagebox.showerror("Error","Tienes que ingresar un numero")
             
         else:
+
+
             self.timer.start(self.window, self.canvas, self.clock)
             self.processes.genProcesos(self.entry_1.get())
 
+            self.canvas.itemconfig(self.text_lotes, text=" " + str(len(self.processes.batches)))
+            
             self.done = False
             threading.Thread(target=self.loop_print, daemon=True).start()
             #self.processes.execute_process(self.label_ejecucion,self.window)
@@ -320,8 +329,8 @@ class MyGui:
                 self.label_espera.config(text="")
                 self.print_espera()
                 done.set()
-            if done.is_set():
-                self.print_espera()
+            # if done.is_set():
+            #     self.print_espera()
         #self.loop_print()
         # while True:
         #     if not done.is_set():
@@ -368,6 +377,8 @@ class Processes:
     def setProcesos(self, processes):
         # Split the processes into batches of 5
         self.batches = [processes[i:i + 5] for i in range(0, len(processes), 5)]
+
+        print(self.batches)
     
     def genProcesos(self, num_processes):
         users = ['Jose', 'Carlos', 'Carolina', 'Juan']
