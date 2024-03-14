@@ -8,6 +8,7 @@ import random
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"/run/media/miguel/Data/User/Courses/Sem_SO/fkinTkinter/programa_1/build/assets/frame0")
 
+done = threading.Event()
 
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
@@ -270,7 +271,8 @@ class MyGui:
 
             self.done = False
             threading.Thread(target=self.loop_print, daemon=True).start()
-            self.processes.execute_process(self.label_ejecucion,self.window)
+            #self.processes.execute_process(self.label_ejecucion,self.window)
+            threading.Thread(target=self.processes.execute_process, args=(self.label_ejecucion,self.window), daemon=True).start()
 
     def print_espera(self):
         string = ""
@@ -292,11 +294,21 @@ class MyGui:
         self.label_espera.config(text=string)
 
     def loop_print(self):
-        while not self.processes.done:
-            self.print_espera()
-        self.label_espera.config(text="")
-        self.processes.done = False
-        self.loop_print()   
+        while True:
+            if not done.is_set():
+                self.label_espera.config(text="")
+                self.print_espera()
+                done.set()
+            if done.is_set():
+                self.print_espera()
+        #self.loop_print()
+        # while True:
+        #     if not done.is_set():
+        #         self.print_espera()
+        #         done.set()
+        #     self.label_espera.config(text="")   
+
+
 
 class Timer:
     def __init__(self):
@@ -322,6 +334,8 @@ class Timer:
     def stop(self, canvas, clock):
         self.running = False
         self.seconds = 0
+
+
 
 class Processes:
     def __init__(self):
@@ -376,6 +390,7 @@ class Processes:
     
                 
     def execute_process(self,label,window):
+        done.wait()
         if self.head['tme'] > 0:
             self.head['tme'] -= 1
 
@@ -398,7 +413,7 @@ class Processes:
             #print(self.finish_e)
             # self.execute = False
             # #self.semaforo.acquire()
-            self.done = True
+            done.clear()
     
  
 
