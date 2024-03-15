@@ -21,7 +21,7 @@ class MyGui:
         self.window.configure(bg = "#FFFFFF")
         
         self.timer = Timer()
-        self.processes = Processes()
+        self.processes = Processes(self.timer)
 
         self.canvas = Canvas(
             self.window,
@@ -101,7 +101,7 @@ class MyGui:
             image=button_image_2,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
+            command=self.processes.print_finish(),
             relief="flat"
         )
         self.button_2.place(
@@ -359,19 +359,24 @@ class Timer:
     def start(self, window, canvas, clock):
         
         self.running = True
-        threading.Thread(target=self.update_time,args=(window,canvas,clock)).start()
+        self.clock = threading.Thread(target=self.update_time,args=(window,canvas,clock))
+        self.clock.start()
 
-    def stop(self, canvas, clock):
+    def stop(self):
         self.running = False
         self.seconds = 0
+        self.clock.join()
 
 
 
 class Processes:
-    def __init__(self):
+    def __init__(self, timer):
         self.time_string = tk.StringVar()
         self.string = ""
         self.finish_e = []
+        self.myclock = timer
+        self.finish_batches = ""
+        
         
 
     def setProcesos(self, processes):
@@ -421,6 +426,13 @@ class Processes:
                 
                 file.write("\n")
                 file.write("\n")
+
+    def print_finish(self):
+        count = 0
+        count2 = 0
+        with open('terminados.txt', 'w') as file:
+            file.write(self.finish_batches)
+            file.write("\n")
     
                 
     def execute_process(self,label,label_f,canvas_l,text_l):
@@ -457,6 +469,10 @@ class Processes:
                     if not self.batches[0]:
                         self.print_lotes(canvas_l, text_l)
                         del self.batches[0]
+                        self.myclock.stop()
+                    
+                    if not self.batches:
+                        self.myclock.stop()
 
                     done.clear()
         except:
@@ -490,6 +506,13 @@ class Processes:
             string_f += "\n"
 
             label.config(text=string_f)
+
+            with open('terminados.txt', 'w') as file:
+                file.write(string_f)
+                file.write("\n")
+            
+
+            self.finish_batches = string_f
         except:
             pass
 
