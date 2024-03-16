@@ -5,6 +5,7 @@ import tkinter as tk
 import threading
 import random
 import time
+import copy
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"/run/media/miguel/Data/User/Courses/Sem_SO/fkinTkinter/programa_1/build/assets/frame0")
@@ -22,6 +23,7 @@ class MyGui:
         
         self.timer = Timer()
         self.processes = Processes(self.timer)
+
 
         self.canvas = Canvas(
             self.window,
@@ -290,11 +292,13 @@ class MyGui:
             
         else:
 
-
             self.timer.start(self.window, self.canvas, self.clock)
             self.processes.genProcesos(self.entry_1.get())
 
-            self.canvas.itemconfig(self.text_lotes, text=" " + str(len(self.processes.batches)))
+            self.array_for_print = copy.deepcopy(self.processes.batches)
+            self.first_run = True
+
+            self.canvas.itemconfig(self.text_lotes, text=" " + str(len(self.processes.batches) - 1))
             
             self.done = False
             threading.Thread(target=self.loop_print, daemon=True).start()
@@ -303,9 +307,9 @@ class MyGui:
 
     def print_espera(self):
         string = ""
-        max = 0
+        max = 0      
         while True:
-            for i in self.processes.batches:
+            for i in self.array_for_print:
                 for j in i:
                     max += 1
                     string += str(j['id'])+". "+j['user']+"\n"
@@ -321,6 +325,7 @@ class MyGui:
             string += str(procesos_faltantes) + " Procesos pendientes"
         except:
             pass
+        #del array_for_print[0]
         self.label_espera.config(text=string)
 
     def loop_print(self):
@@ -328,15 +333,32 @@ class MyGui:
             if not done.is_set():
                 self.label_espera.config(text="")
                 self.print_espera()
+                try:
+                    del self.array_for_print[0][0]
+
+                    if not self.array_for_print[0]:
+                        self.print_lotes(self.canvas, self.text_lotes)
+                        del self.array_for_print[0]
+                except:
+                    pass
+                self.print_espera()
                 done.set()
+            
             # if done.is_set():
+            #     try:
+            #         wait = self.array_for_print[0][0]['tme']
+            #         del self.array_for_print[0][0]
+            #     except:
+            #         pass
             #     self.print_espera()
-        #self.loop_print()
-        # while True:
-        #     if not done.is_set():
-        #         self.print_espera()
-        #         done.set()
-        #     self.label_espera.config(text="")   
+            #     #time.sleep(wait - 1)
+
+
+    def print_lotes(self, canvas, text):
+        lotes = len(self.array_for_print)
+        lotes -= 1
+
+        canvas.itemconfig(text, text=" " + str(lotes))       
 
 
 
@@ -452,7 +474,6 @@ class Processes:
                     label.config(text=self.time_string.get())
                     self.string = ""
                     self.time_string.set("")
-                    #window.after(1000, self.execute_process,label,window)
                     time.sleep(1)
                     self.execute = True
                 else:
@@ -462,12 +483,9 @@ class Processes:
                     self.finish_e.append(head)
                     del self.batches[0][0]
                     self.finish_process(label_f)
-                    #print(self.finish_e)
-                    # self.execute = False
-                    # #self.semaforo.acquire()
 
                     if not self.batches[0]:
-                        self.print_lotes(canvas_l, text_l)
+                        #self.print_lotes(canvas_l, text_l)
                         del self.batches[0]
                         self.myclock.stop()
                     
@@ -516,11 +534,7 @@ class Processes:
         except:
             pass
 
-    def print_lotes(self, canvas, text):
-        lotes = len(self.batches)
-        lotes -= 1
-
-        canvas.itemconfig(text, text=" " + str(lotes))  
+    
  
 
 gui = MyGui()
