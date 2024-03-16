@@ -337,11 +337,11 @@ class MyGui:
                     del self.array_for_print[0][0]
 
                     if not self.array_for_print[0]:
-                        self.print_lotes(self.canvas, self.text_lotes)
                         del self.array_for_print[0]
                 except:
                     pass
                 self.print_espera()
+                self.print_lotes(self.canvas, self.text_lotes)
                 done.set()
             
             # if done.is_set():
@@ -356,9 +356,12 @@ class MyGui:
 
     def print_lotes(self, canvas, text):
         lotes = len(self.array_for_print)
-        lotes -= 1
+        if lotes == 0:
+            pass
+        else:
+            lotes -= 1
 
-        canvas.itemconfig(text, text=" " + str(lotes))       
+            canvas.itemconfig(text, text=" " + str(lotes))       
 
 
 
@@ -475,7 +478,6 @@ class Processes:
                     self.string = ""
                     self.time_string.set("")
                     time.sleep(1)
-                    self.execute = True
                 else:
                     self.string = ""
                     self.time_string.set("")
@@ -485,9 +487,7 @@ class Processes:
                     self.finish_process(label_f)
 
                     if not self.batches[0]:
-                        #self.print_lotes(canvas_l, text_l)
                         del self.batches[0]
-                        self.myclock.stop()
                     
                     if not self.batches:
                         self.myclock.stop()
