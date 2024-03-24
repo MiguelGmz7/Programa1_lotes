@@ -96,23 +96,8 @@ class MyGui:
             width=207.0,
             height=40.0
         )
-
-        button_image_2 = PhotoImage(
-            file=relative_to_assets("button_2.png"))
-        self.button_2 = Button(
-            image=button_image_2,
-            borderwidth=0,
-            highlightthickness=0,
-            command=self.processes.print_finish(),
-            relief="flat"
-        )
-        self.button_2.place(
-            x=540.0,
-            y=596.0,
-            width=207.0,
-            height=40.0
-        )
-
+        
+        
         # Recuadro de espera
 
         self.canvas.create_rectangle(
@@ -201,16 +186,7 @@ class MyGui:
         
         self.label_ejecucion.pack()
 
-        #lotes
         
-        self.text_lotes = self.canvas.create_text(
-            182.0,
-            596.0,
-            anchor="nw",
-            text="0",
-            fill="#000000",
-            font=("JetBrainsMonoRoman Regular", 24 * -1)
-        )
 
         
 
@@ -264,6 +240,34 @@ class MyGui:
             133.0,
             image=image_image_7
         )
+
+        #lotes
+        
+        self.text_lotes = self.canvas.create_text(
+            182.0,
+            596.0,
+            anchor="nw",
+            text="0",
+            fill="#000000",
+            font=("JetBrainsMonoRoman Regular", 24 * -1)
+        )
+
+        button_image_2 = PhotoImage(
+            file=relative_to_assets("button_2.png"))
+        self.button_2 = Button(
+            image=button_image_2,
+            borderwidth=0,
+            highlightthickness=0,
+            command=self.print_finish,
+            relief="flat"
+        )
+        self.button_2.place(
+            x=540.0,
+            y=596.0,
+            width=207.0,
+            height=40.0
+        )
+
 
         
         # Reloj Cronometro
@@ -361,7 +365,18 @@ class MyGui:
         else:
             lotes -= 1
 
-            canvas.itemconfig(text, text=" " + str(lotes))       
+            canvas.itemconfig(text, text=" " + str(lotes))
+    
+    def print_finish(self):
+        if not self.timer.running:
+            text_p = self.label_terminado.cget("text")
+            with open('terminados.txt', 'w') as file:
+                file.write(text_p)
+        
+        else:
+            messagebox.showerror("Error","Aun existen Procesos que necesitan ejecutarse")
+
+          
 
 
 
@@ -452,12 +467,8 @@ class Processes:
                 file.write("\n")
                 file.write("\n")
 
-    def print_finish(self):
-        count = 0
-        count2 = 0
-        with open('terminados.txt', 'w') as file:
-            file.write(self.finish_batches)
-            file.write("\n")
+    
+ 
     
                 
     def execute_process(self,label,label_f,canvas_l,text_l):
@@ -525,14 +536,13 @@ class Processes:
 
             label.config(text=string_f)
 
-            with open('terminados.txt', 'w') as file:
-                file.write(string_f)
-                file.write("\n")
             
 
             self.finish_batches = string_f
         except:
             pass
+    
+  
 
     
  
