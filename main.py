@@ -10,10 +10,10 @@ import copy
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path(r"/run/media/miguel/Data/User/Courses/Sem_SO/fkinTkinter/programa_1/build/assets/frame0")
 
-done = threading.Event()
-
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
+
+done = threading.Event()
 
 class MyGui:
     def __init__(self):
@@ -546,6 +546,6 @@ class Processes:
 
     
  
-
-gui = MyGui()
-gui.window.mainloop()
+if __name__ == "__main__":
+    gui = MyGui()
+    gui.window.mainloop()
